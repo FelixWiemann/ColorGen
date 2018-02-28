@@ -2,7 +2,6 @@ package com.nepumuk.colorgen;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,41 +13,40 @@ import android.widget.TextView;
 
 public class ColorGen extends ActionBarActivity {
 
-	private SeekBar seekBarRed;
-	private SeekBar seekBarGreen;
-	private SeekBar seekBarBlue;
-	private TextView textViewRed;
-	private TextView textViewGreen;
-	private TextView textViewBlue;
-	private TextView textViewRedDis;
-	private TextView textViewGreenDis;
-	private TextView textViewBlueDis;
-	private TextView hexVal;
+	private SeekBar aSeekBarRed;
+	private SeekBar aSeekBarGreen;
+	private SeekBar aSeekBarBlue;
+	private TextView aTextViewRed;
+	private TextView aTextViewGreen;
+	private TextView aTextViewBlue;
+	private TextView aTextViewRedDis;
+	private TextView aTextViewGreenDis;
+	private TextView aTextViewBlueDis;
+	private TextView aTextViewHexValue;
 
-	private LinearLayout lv;
-	private Camera camera;
+	private LinearLayout aLinearLayout;
 
-	private int[] hexVals = new int[] {255,255,255};
+	private int[] aHexValues = new int[] {255,255,255};
 
-	private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new  SeekBar.OnSeekBarChangeListener(){
+	private SeekBar.OnSeekBarChangeListener aSeekBarChangeListener = new  SeekBar.OnSeekBarChangeListener(){
 
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			switch (seekBar.getId()){
-				case R.id.seekBar:
-					textViewRed.setText(String.valueOf(progress));
-					hexVals[0] = progress;
+				case R.id.seekBar_RED:
+					aTextViewRed.setText(String.valueOf(progress));
+					aHexValues[0] = progress;
 					break;
-				case R.id.seekBar2:
-					textViewGreen.setText(String.valueOf(progress));
-					hexVals[1] = progress;
+				case R.id.seekBar_GREEN:
+					aTextViewGreen.setText(String.valueOf(progress));
+					aHexValues[1] = progress;
 					break;
-				case R.id.seekBar3:
-					textViewBlue.setText(String.valueOf(progress));
-					hexVals[2] = progress;
+				case R.id.seekBar_BLUE:
+					aTextViewBlue.setText(String.valueOf(progress));
+					aHexValues[2] = progress;
 					break;
 			}
-			SetBackGroundColor(hexVals);
+			SetBackGroundColor(aHexValues);
 
 		}
 
@@ -68,20 +66,21 @@ public class ColorGen extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_color_gen);
-		textViewRed= (TextView) findViewById(R.id.textView);
-		textViewGreen= (TextView) findViewById(R.id.textView2);
-		textViewBlue= (TextView) findViewById(R.id.textView3);
-		seekBarRed = (SeekBar) findViewById(R.id.seekBar);
-		seekBarGreen= (SeekBar) findViewById(R.id.seekBar2);
-		seekBarBlue= (SeekBar) findViewById(R.id.seekBar3);
-		lv = (LinearLayout) findViewById(R.id.LinLay);
-		seekBarBlue.setOnSeekBarChangeListener(seekBarChangeListener);
-		seekBarRed.setOnSeekBarChangeListener(seekBarChangeListener);
-		seekBarGreen.setOnSeekBarChangeListener(seekBarChangeListener);
-		 textViewRedDis=(TextView) findViewById(R.id.textView4);
-		 textViewGreenDis=(TextView) findViewById(R.id.textView5);
-		 textViewBlueDis=(TextView) findViewById(R.id.textView6);
-		hexVal = (TextView) findViewById(R.id.HexVal);
+		aTextViewRed = (TextView) findViewById(R.id.textView);
+		aTextViewGreen = (TextView) findViewById(R.id.textView2);
+		aTextViewBlue = (TextView) findViewById(R.id.textView3);
+		aSeekBarRed = (SeekBar) findViewById(R.id.seekBar_RED);
+		aSeekBarGreen = (SeekBar) findViewById(R.id.seekBar_GREEN);
+		aSeekBarBlue = (SeekBar) findViewById(R.id.seekBar_BLUE);
+		aLinearLayout = (LinearLayout) findViewById(R.id.LinLay);
+		aSeekBarBlue.setOnSeekBarChangeListener(aSeekBarChangeListener);
+		aSeekBarRed.setOnSeekBarChangeListener(aSeekBarChangeListener);
+		aSeekBarGreen.setOnSeekBarChangeListener(aSeekBarChangeListener);
+		aTextViewRedDis =(TextView) findViewById(R.id.textView4);
+		aTextViewGreenDis =(TextView) findViewById(R.id.textView5);
+		aTextViewBlueDis =(TextView) findViewById(R.id.textView6);
+		aTextViewHexValue = (TextView) findViewById(R.id.HexVal);
+		SetBackGroundColor(aHexValues);
 
 	}
 
@@ -110,7 +109,7 @@ public class ColorGen extends ActionBarActivity {
 			return true;
 		}if (id == R.id.ReturnColorCode) {
 			Intent intent = new Intent();
-			intent.putExtra("DATA",Color.rgb(hexVals[0],hexVals[1],hexVals[2]));
+			intent.putExtra("DATA",Color.rgb(aHexValues[0], aHexValues[1], aHexValues[2]));
 			setResult(ActionBarActivity.RESULT_OK,intent);
 			finish();
 			//checkCameraHardware(this);
@@ -124,34 +123,32 @@ public class ColorGen extends ActionBarActivity {
 
 
 	public void SetBackGroundColor(int[] rgb){
-		lv.setBackgroundColor(Color.rgb(rgb[0],rgb[1],rgb[2]));
+		aLinearLayout.setBackgroundColor(Color.rgb(rgb[0],rgb[1],rgb[2]));
 		int textViewC = Color.rgb(255-rgb[0],255-rgb[1],255-rgb[2]);
 		String[] sHexVals = {Integer.toHexString(rgb[0]),Integer.toHexString(rgb[1]),Integer.toHexString(rgb[2])};
 		for (int i = 0;i<3;i++){
-			if (sHexVals[i].length()==2){
-
-			}
+			if (sHexVals[i].length()==2){}
 			else{
 				sHexVals[i] = "0"+sHexVals[i];
 			}
 		}
-		hexVal.setText("#"+sHexVals[0]+sHexVals[1]+sHexVals[2]);
+		aTextViewHexValue.setText("#"+sHexVals[0]+sHexVals[1]+sHexVals[2]);
 		if((rgb[0]+rgb[1]+rgb[2])<100){
-			textViewGreen.setTextColor(textViewC);
-			textViewRed.setTextColor(textViewC);
-			textViewBlue.setTextColor(textViewC);
-			textViewGreenDis.setTextColor(textViewC);
-			textViewRedDis.setTextColor(textViewC);
-			textViewBlueDis.setTextColor(textViewC);
+			aTextViewGreen.setTextColor(textViewC);
+			aTextViewRed.setTextColor(textViewC);
+			aTextViewBlue.setTextColor(textViewC);
+			aTextViewGreenDis.setTextColor(textViewC);
+			aTextViewRedDis.setTextColor(textViewC);
+			aTextViewBlueDis.setTextColor(textViewC);
 
 		}
 		else{
-			textViewGreen.setTextColor(textViewC);
-			textViewRed.setTextColor(textViewC);
-			textViewBlue.setTextColor(textViewC);
-			textViewGreenDis.setTextColor(textViewC);
-			textViewRedDis.setTextColor(textViewC);
-			textViewBlueDis.setTextColor(textViewC);
+			aTextViewGreen.setTextColor(textViewC);
+			aTextViewRed.setTextColor(textViewC);
+			aTextViewBlue.setTextColor(textViewC);
+			aTextViewGreenDis.setTextColor(textViewC);
+			aTextViewRedDis.setTextColor(textViewC);
+			aTextViewBlueDis.setTextColor(textViewC);
 		}
 	}
 

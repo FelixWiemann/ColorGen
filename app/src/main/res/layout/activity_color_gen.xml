@@ -36,7 +36,7 @@
             <SeekBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/seekBar"
+                android:id="@+id/seekBar_RED"
                 android:minWidth="300dp"
                 android:maxWidth="500dp"
 
@@ -67,7 +67,7 @@
 
             <SeekBar
                 android:layout_height="wrap_content"
-                android:id="@+id/seekBar2"
+                android:id="@+id/seekBar_GREEN"
                 android:minWidth="300dp"
                 android:maxWidth="500dp"
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             <SeekBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/seekBar3"
+                android:id="@+id/seekBar_BLUE"
                 android:minWidth="300dp"
                 android:maxWidth="500dp"
                 android:max="255"

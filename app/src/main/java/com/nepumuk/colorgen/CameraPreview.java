@@ -18,23 +18,20 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback,Camera.PreviewCallback
 {
 	private static final String TAG = "CAMERA_PREVIEW";
-	private SurfaceHolder mHolder;
-	private Camera mCamera;
-	private int[][] pixels;
-	private Camera.Size previewSize;
+	private SurfaceHolder aHolder;
+	private Camera aCamera;
+	private int[][] aPixels;
+	private Camera.Size aPreviewSize;
 	TextView tv;
 
 	public void flashOn(boolean on){
-		Camera.Parameters p = mCamera.getParameters();
-
-
-
+		Camera.Parameters p = aCamera.getParameters();
 		if (on){
 			p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);}
 		else{
 			p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 		}
-		mCamera.setParameters(p);
+		aCamera.setParameters(p);
 		}
 
 
@@ -58,34 +55,31 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);
-		mCamera = camera;
+		aCamera = camera;
 		// Install a SurfaceHolder.Callback so we get notified when the
 		// underlying surface is created and destroyed.
-		mHolder = getHolder();
-		mHolder.addCallback(this);
+		aHolder = getHolder();
+		aHolder.addCallback(this);
 		// deprecated setting, but required on Android versions prior to 3.0
-		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-
+		aHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
-
 	private void init(Camera camera) {
-		mCamera = camera;
+		aCamera = camera;
 
 		// Install a SurfaceHolder.Callback so we get notified when the
 		// underlying surface is created and destroyed.
-		mHolder = getHolder();
-		mHolder.addCallback(this);
+		aHolder = getHolder();
+		aHolder.addCallback(this);
 		// deprecated setting, but required on Android versions prior to 3.0
-		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		aHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 }
 
 	public void surfaceCreated(SurfaceHolder holder) {
 		// The Surface has been created, now tell the camera where to draw the preview.
 		try {
-			mCamera.setPreviewDisplay(holder);
-			mCamera.setPreviewCallback(this);
-			mCamera.startPreview();
+			aCamera.setPreviewDisplay(holder);
+			aCamera.setPreviewCallback(this);
+			aCamera.startPreview();
 		} catch (IOException e) {
 			Log.d(TAG, "Error setting camera preview: " + e.getMessage());
 		}
@@ -93,37 +87,37 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// empty. Take care of releasing the Camera preview in your activity.
-		//mCamera.release();
+		//aCamera.release();
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		// If your preview can change or rotate, take care of those events here.
 		// Make sure to stop the preview before resizing or reformatting it.
 
-		if (mHolder.getSurface() == null) {
+		if (aHolder.getSurface() == null) {
 			// preview surface does not exist
 			return;
 		}
 
 		// stop preview before making changes
 		try {
-			mCamera.stopPreview();
+			aCamera.stopPreview();
 		} catch (Exception e) {
 			// ignore: tried to stop a non-existent preview
 		}
 
 		// set preview size and make any resize, rotate or
-		mCamera.getParameters().getPreviewSize();
+		aCamera.getParameters().getPreviewSize();
 		// reformatting changes here
 		Canvas canvas = null;
 
 
 		// start preview with new settings
 		try {
-			mCamera.setPreviewDisplay(mHolder);
-			mCamera.setPreviewCallback(this);
-			previewSize = mCamera.getParameters().getPreviewSize();
-			mCamera.startPreview();
+			aCamera.setPreviewDisplay(aHolder);
+			aCamera.setPreviewCallback(this);
+			aPreviewSize = aCamera.getParameters().getPreviewSize();
+			aCamera.startPreview();
 
 		} catch (Exception e) {
 			Log.d(TAG, "Error starting camera preview: " + e.getMessage());
@@ -177,11 +171,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 			}
 		}
-		pixels=rgb;
+		aPixels =rgb;
 	}
 
 	public void closeCam() {
-		mCamera.release();
+		aCamera.release();
 	}
 
 	private void makeToast(String message)
@@ -191,26 +185,26 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		//transforms NV21 pixel data into RGB pixels
-		decodeYUV420SP(data, previewSize.width, previewSize.height);
+		//transforms NV21 pixel data into RGB aPixels
+		decodeYUV420SP(data, aPreviewSize.width, aPreviewSize.height);
 		int averageGreen=0;
 		int averageBlue=0;
 		int averageRed=0;
 
-		for (int[] i:pixels) {
+		for (int[] i: aPixels) {
 			averageRed += i[1];
 			averageGreen += i[2];
 			averageBlue += i[3];
 		}
-		averageBlue /= pixels.length;
-		averageGreen /= pixels.length;
-		averageRed /= pixels.length;
+		averageBlue /= aPixels.length;
+		averageGreen /= aPixels.length;
+		averageRed /= aPixels.length;
 
 		tv.setText("r: "+Integer.toHexString(averageRed)+", g: "+Integer.toHexString(averageGreen)+", b: "+Integer.toHexString(averageBlue));
 
 		//Outuput the value of the top left pixel in the preview to LogCat
 		//Log.i("Pixels", "The top right pixel has the following RGB (hexadecimal) values:"
-		//		+Integer.toHexString(pixels[0]));
+		//		+Integer.toHexString(aPixels[0]));
 
 	}
 
