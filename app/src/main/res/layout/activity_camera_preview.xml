@@ -23,7 +23,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Turn light on"
+        android:text="@string/turn_light_on"
         android:id="@+id/button"
         android:onClick="HandleFlash"
         android:layout_marginRight="100dp"

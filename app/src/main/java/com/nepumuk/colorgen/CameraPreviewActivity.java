@@ -238,12 +238,12 @@ public class CameraPreviewActivity extends Activity {
 	public void HandleFlash(View view) {
 		if(flashOn){
 			cp.flashOn(flashOn);
-			bt.setText("Turn light off");
+			bt.setText(getString(R.string.turn_light_off));
 			flashOn=false;
 		}
 		else{
 			cp.flashOn(flashOn);
-			bt.setText("Turn light on");
+			bt.setText(getString(R.string.turn_light_on));
 			flashOn=true;
 		}
 	}
